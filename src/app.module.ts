@@ -11,6 +11,9 @@ import { ZoomModule } from './zoom/zoom.module';
 
 import { RedisModule } from './redis/redis.module';
 import {RedisService} from "./redis/redis.service";
+// import { OnlineModule } from './pbx/online/online.module';
+// import { PbxController } from './pbx/pbx.controller';
+import { PbxModule } from './pbx/pbx.module';
 
 
 @Module({
@@ -39,6 +42,7 @@ import {RedisService} from "./redis/redis.service";
       AccountsModule,
       ZoomModule,
       RedisModule,
+      PbxModule,
 
 
   ],
