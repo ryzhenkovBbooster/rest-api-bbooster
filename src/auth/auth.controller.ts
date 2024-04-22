@@ -11,8 +11,8 @@ export class AuthController {
         return await this.authService.login(dto)
     }
 
-    @Post('/register')
-    async register(@Body() dto: CreateUserDto){
-        return await this.authService.registration(dto)
-    }
+    // @Post('/register')
+    // async register(@Body() dto: CreateUserDto){
+    //     return await this.authService.registration(dto)
+    // }
 }

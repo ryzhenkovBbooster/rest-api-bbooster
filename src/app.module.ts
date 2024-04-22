@@ -14,6 +14,7 @@ import {RedisService} from "./redis/redis.service";
 // import { OnlineModule } from './pbx/online/online.module';
 // import { PbxController } from './pbx/pbx.controller';
 import { PbxModule } from './pbx/pbx.module';
+import { HuntflowModule } from './huntflow/huntflow.module';
 
 
 @Module({
@@ -43,6 +44,7 @@ import { PbxModule } from './pbx/pbx.module';
       ZoomModule,
       RedisModule,
       PbxModule,
+      HuntflowModule,
 
 
   ],
