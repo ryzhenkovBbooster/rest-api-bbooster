@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as process from "process";
 import axios from "axios";
 import {parsePhoneNumber} from "libphonenumber-js";
+import {getName} from "country-list"
 
 @Injectable()
 export class PbxService {
@@ -49,22 +50,26 @@ export class PbxService {
                 // console.log(typeof unixToday)
                 const data = {
                     // accountcode: 'inbound',
-                    caller_id_number: number,
+                    phone_numbers: number,
                     // start_stamp_from:unixThreeDaysAgo,
-                    end_stamp_from: unixThreeDaysAgo,
-                    from_host: 'bbooster.onpbx.ru'
+                    // end_stamp_from: unixThreeDaysAgo,
+                    from_host: 'bbooster.onpbx.ru',
+                    accountcode: 'outbound'
 
                 }
                 const dataWithNumber1 = {
-                    caller_id_number: number1,
-                    start_stamp_from:unixThreeDaysAgo,
+                    phone_numbers: number1,
+                    // start_stamp_from:unixThreeDaysAgo,
                     // end_stamp_from: unixToday,
-                    from_host: 'bbooster.onpbx.ru'
+                    from_host: 'bbooster.onpbx.ru',
+                    accountcode: 'outbound'
+
                 }
 
-                // console.log(data)
+                //
                 const response = await axios.post(url, data, {headers})
                 if (response.data.data.length !== 0){
+
                     // console.log(response.data)
                     // let destinationNumber = []
                     // response.data.data.forEach(i => {
@@ -78,21 +83,23 @@ export class PbxService {
                         // destinationNumber.push(i.destination_number)
                     // })
                     // console.log(response.data.data)
-                    return response.data.data.pop()['destination_number']
-                }else{
-                    const responseWithNumber1 = await axios.post(url, dataWithNumber1, {headers})
-                    if(responseWithNumber1.data.data.length !== 0){
-                        // let destinationNumber = []
-                        // responseWithNumber1.data.data.forEach(i => {
-                        //     if(i === response.data.data[0]){
-                        //         console.log(i)
-                        //         destinationNumber.push(i.destination_number)
-                        //
-                        //     }
-                        // })
-                        return responseWithNumber1.data.data.pop()['destination_number']
-                    }
+                    return response.data.data.pop()['caller_id_number']
                 }
+                const responseWithNumber1 = await axios.post(url, dataWithNumber1, {headers})
+                if(responseWithNumber1.data.data.length !== 0){
+
+
+                    // let destinationNumber = []
+                    // responseWithNumber1.data.data.forEach(i => {
+                    //     if(i === response.data.data[0]){
+                    //         console.log(i)
+                    //         destinationNumber.push(i.destination_number)
+                    //
+                    //     }
+                    // })
+                    return responseWithNumber1.data.data.pop()['caller_id_number']
+                }
+
                 return 'Ранее никто не звонил клиенту'
             }catch (e){
                 return 'err'
@@ -104,15 +111,23 @@ export class PbxService {
         if (number.includes('+')){
             const numberCode = parsePhoneNumber(number);
             if(numberCode){
-                return numberCode.country
+                try{
+                    return getName(`${numberCode.country}`)
+                }catch (e){
+                    return numberCode.country
+                }
+                // return numberCode.country
 
             }else return false
 
         }else{
             const numberCode = parsePhoneNumber('+' + number);
             if(numberCode){
-                return numberCode.country
-                // return false
+                try{
+                    return getName(`${numberCode.country}`)
+                }catch (e){
+                    return numberCode.country
+                }
 
             }else return false
 
@@ -127,6 +142,7 @@ export class PbxService {
 
         const country = this.getCodeCountry(body.caller)
         const historyByNumber = await this.getCallBack(body.caller)
+        console.log(historyByNumber)
 
         if(callDuration > 2){
              text = `Пропущенный звонок с номера ${body.caller}\nКто звонил ранее: ${historyByNumber}\nСтрана ${country}\nВремя звонка: ${body.call_duration}`
