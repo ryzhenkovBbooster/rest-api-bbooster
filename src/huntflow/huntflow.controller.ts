@@ -28,12 +28,12 @@ export class HuntflowController {
         }else return keyPair
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Put('/update')
-    async updateKeyPair(@Body() dto: CreateKeyPairDto){
-       const keyPair = await this.huntService.updateKeyPair(dto)
-        if(keyPair === false){
-            throw new HttpException('KeyPair is not found', HttpStatus.NOT_FOUND);
-        }return keyPair
-    }
+    // @UseGuards(JwtAuthGuard)
+    // @Put('/update')
+    // async updateKeyPair(@Body() dto: CreateKeyPairDto){
+    //    const keyPair = await this.huntService.updateKeyPair(dto)
+    //     if(keyPair === false){
+    //         throw new HttpException('KeyPair is not found', HttpStatus.NOT_FOUND);
+    //     }return keyPair
+    // }
 }
