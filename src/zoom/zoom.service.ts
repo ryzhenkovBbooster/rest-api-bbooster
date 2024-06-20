@@ -11,9 +11,7 @@ export class ZoomService {
 
     private readonly zoomSecret: string = "InVxdBkUTOCuI3HGwHOYIA"
 
-    async helloWorld() {
-        return await 'hello'
-    }
+    
 
     constructor(private readonly redis: RedisService) {
     }

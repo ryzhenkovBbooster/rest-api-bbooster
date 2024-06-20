@@ -1,11 +1,11 @@
-import {Body, Controller, Get, Post, Res} from '@nestjs/common';
+import {Body, Controller, Get, Post, Res, UseGuards} from '@nestjs/common';
 import {ZoomService} from "./zoom.service";
 import {Response} from 'express';
-
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {dirPath} from "./dto/downloadFile";
 import {createFile} from "../../api google drive/createFilee.js"
 import {createFolder} from "../../api google drive/createFilee.js"
-
+import { createReadStream, promises as fsPromises } from 'fs';
 import * as path from "path";
 
 
@@ -14,9 +14,25 @@ export class ZoomController {
     constructor(private readonly zoomService: ZoomService) {
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
-    async hello() {
-        return await this.zoomService.helloWorld()
+    async getLog(@Res() res: Response ){
+        const fileName = 'zoom-log.txt'
+        const filePath = path.join(__dirname, '..', '..', fileName);
+        try {
+            // Проверка существования файла
+            await fsPromises.access(filePath);
+      
+            // Создание потока чтения файла
+            const fileStream = createReadStream(filePath);
+            res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+            res.setHeader('Content-Type', 'text/plain');
+      
+            // Асинхронное отправление файла
+            fileStream.pipe(res);
+          } catch (error) {
+            res.status(404).send('File not found');
+          }
     }
 
     @Post('validate')
