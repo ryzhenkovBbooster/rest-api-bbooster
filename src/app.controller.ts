@@ -5,9 +5,10 @@ import { Response } from 'express';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
+
   @Get('checkCrush')
-  async checkCrush(@Res() res: Response){
-    return res.status(200)
+  async checkCrush(){
+    return 'succes'
   }
   @Get()
   async fishLink(@Query('number') number: number){
