@@ -60,7 +60,7 @@ export class ZoomController {
             filename = filename.replace(/:/g, '-').replace(/[\/\\]/g, ' ');
 
             //
-            const filePath = path.join(process.cwd(), '/static') + `/${filename}.mp4`;
+            let filePath = path.join(process.cwd(), '/static') + `/${filename}.mp4`;
 
             const meetingId = body.payload.object.id
             if (body.payload.object.total_size < 10485760){
@@ -71,11 +71,18 @@ export class ZoomController {
             let currentIndex = 0;
             const list = body.payload.object.recording_files
             const lastIndex = list.length - 1;
+            let folder_id = ''
 
             // Итерация по всем файлам записи
             for (let file of list) {
 
                 if (file.download_url) {
+                    
+                    if (currentIndex !== 0){
+                        filePath = filePath.replace('.mp4', `${currentIndex}.mp4`)
+                        filename = filename + `${currentIndex}`
+                    }
+
                     const url = file.download_url
                     // console.log(dirPath[account_id][1])
 
@@ -110,7 +117,9 @@ export class ZoomController {
 
                     // Сохранение файла в Google Drive, если он больше минимального размера
                     if (local_file) {
-                        const folder_id = await createFolder(filename, dirPath[account_id][1])
+                        if (folder_id === ''){
+                            folder_id = await createFolder(filename, dirPath[account_id][1])
+                        }
                         const drive_file = await createFile(filePath, filename + '.mp4', folder_id)
                         if (drive_file) {
                             if (currentIndex === lastIndex) {
