@@ -1,10 +1,14 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
+  @Get('checkCrush')
+  async checkCrush(@Res() res: Response){
+    return res.status(200)
+  }
   @Get()
   async fishLink(@Query('number') number: number){
     const currentTime = new Date().toISOString()
