@@ -75,12 +75,13 @@ export class ZoomController {
 
             // Итерация по всем файлам записи
             for (let file of list) {
+                let localFileName = filename
 
                 if (file.download_url) {
                     
                     if (currentIndex !== 0){
-                        filePath = filePath.replace('.mp4', `${currentIndex}.mp4`)
-                        filename = filename + `${currentIndex}`
+                        filePath = filePath.replace('.mp4', ` ${currentIndex}.mp4`)
+                        localFileName = localFileName + ` ${currentIndex}`
                     }
 
                     const url = file.download_url
