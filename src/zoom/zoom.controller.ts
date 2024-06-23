@@ -8,7 +8,6 @@ import {createFolder} from "../../api google drive/createFilee.js"
 import { createReadStream, promises as fsPromises } from 'fs';
 import * as path from "path";
 
-
 @Controller('zoom')
 export class ZoomController {
     constructor(private readonly zoomService: ZoomService) {
@@ -119,9 +118,9 @@ export class ZoomController {
                     // Сохранение файла в Google Drive, если он больше минимального размера
                     if (local_file) {
                         if (folder_id === ''){
-                            folder_id = await createFolder(filename, dirPath[account_id][1])
+                            folder_id = await createFolder(localFileName, dirPath[account_id][1])
                         }
-                        const drive_file = await createFile(filePath, filename + '.mp4', folder_id)
+                        const drive_file = await createFile(filePath, localFileName + '.mp4', folder_id)
                         if (drive_file) {
                             if (currentIndex === lastIndex) {
                                 await this.zoomService.deleteRecord(meetingId, filePath)
