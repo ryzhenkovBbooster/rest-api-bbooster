@@ -23,7 +23,7 @@ export class HuntflowService {
         if(keyPair.length > 0){
             const checkValidToken = await this.refreshToken(keyPair[0].REFRESH, keyPair[0].TOKEN)
             if (checkValidToken === false){
-            return keyPair[0]
+            return keyPair[0].TOKEN
             }
             return checkValidToken.TOKEN
             
