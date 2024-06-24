@@ -21,7 +21,7 @@ export class HuntflowService {
     async getKeyPair(){
         const keyPair = await this.huntRepository.findAll()
         if(keyPair.length > 0){
-            const checkValidToken = await this.refreshToken(keyPair[0].REFRESH)
+            const checkValidToken = await this.refreshToken(keyPair[0].REFRESH, keyPair[0].TOKEN)
             if (checkValidToken === false){
             return keyPair[0]
             }
@@ -40,11 +40,15 @@ export class HuntflowService {
     //     }return false
     // }
 
-    private async refreshToken(refreshToken: string){
+    private async refreshToken(refreshToken: string, TOKEN: string){
 
         const url = 'https://api.huntflow.ai/v2/token/refresh';
         try{
-        const response = await axios.post(url, {refresh_token: refreshToken})
+            const headers = {
+                'Authorization' : 'Bearer ' + TOKEN,
+                'Content-Type': 'application/json'
+            }
+        const response = await axios.post(url, {refresh_token: refreshToken},{headers} )
         
         
             const data = {
