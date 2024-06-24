@@ -55,7 +55,7 @@ export class HuntflowService {
             TOKEN: response.data['access_token'],
             REFRESH: response.data['refresh_token']
             }
-            await this.huntRepository.update(data, {where : {REFRESH: data.REFRESH}})
+            await this.huntRepository.update(data, {where : {REFRESH: refreshToken}})
             return data
         
         }catch (err){
