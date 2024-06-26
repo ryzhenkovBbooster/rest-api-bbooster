@@ -75,11 +75,12 @@ export class ZoomController {
             // Итерация по всем файлам записи
             for (let file of list) {
                 let localFileName = filename
+                let localFilePath = filePath
 
                 if (file.download_url) {
                     
                     if (currentIndex !== 0){
-                        filePath = filePath.replace('.mp4', ` ${currentIndex}.mp4`)
+                        localFilePath = localFilePath.replace('.mp4', ` ${currentIndex}.mp4`)
                         localFileName = localFileName + ` ${currentIndex}`
                     }
 
@@ -92,7 +93,7 @@ export class ZoomController {
                         console.log(file.file_type)
 
                         if (currentIndex === lastIndex) {
-                            await this.zoomService.deleteRecord(meetingId, filePath)
+                            await this.zoomService.deleteRecord(meetingId, localFilePath)
 
                             return res.status(200).json({data: 'Webhook received'})
 
@@ -102,10 +103,10 @@ export class ZoomController {
                         continue
                     }
                     // Загрузка видео и проверка его размера
-                    const local_file = await this.zoomService.downloadVideo(url, filePath)
+                    const local_file = await this.zoomService.downloadVideo(url, localFilePath)
                     if (local_file === 'small') {
                         if (currentIndex === lastIndex) {
-                            await this.zoomService.deleteRecord(meetingId, filePath)
+                            await this.zoomService.deleteRecord(meetingId, localFilePath)
                             return res.status(200).json({data: 'Webhook received'})
 
                         }
@@ -120,10 +121,10 @@ export class ZoomController {
                         if (folder_id === ''){
                             folder_id = await createFolder(localFileName, dirPath[account_id][1])
                         }
-                        const drive_file = await createFile(filePath, localFileName + '.mp4', folder_id)
+                        const drive_file = await createFile(localFilePath, localFileName + '.mp4', folder_id)
                         if (drive_file) {
                             if (currentIndex === lastIndex) {
-                                await this.zoomService.deleteRecord(meetingId, filePath)
+                                await this.zoomService.deleteRecord(meetingId, localFilePath)
 
                                 return res.status(200).json({data: 'Webhook received'})
 
