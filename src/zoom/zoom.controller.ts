@@ -129,6 +129,7 @@ export class ZoomController {
                                 return res.status(200).json({data: 'Webhook received'})
 
                             }
+                            await this.zoomService.deleteRecord(meetingId, localFilePath)
                             currentIndex++;
 
 
