@@ -77,11 +77,14 @@ export class ZoomController {
                 let localFileName = filename
                 let localFilePath = filePath
 
+
                 if (file.download_url) {
                     
                     if (currentIndex !== 0){
+
                         localFilePath = localFilePath.replace('.mp4', ` ${currentIndex}.mp4`)
                         localFileName = localFileName + ` ${currentIndex}`
+
                     }
 
                     const url = file.download_url
@@ -119,9 +122,11 @@ export class ZoomController {
                     // Сохранение файла в Google Drive, если он больше минимального размера
                     if (local_file) {
                         if (folder_id === ''){
+
                             folder_id = await createFolder(localFileName, dirPath[account_id][1])
                         }
                         const drive_file = await createFile(localFilePath, localFileName + '.mp4', folder_id)
+
                         if (drive_file) {
                             if (currentIndex === lastIndex) {
                                 await this.zoomService.deleteRecord(meetingId, localFilePath)
