@@ -12,6 +12,7 @@ import {AuthModule} from "../auth/auth.module";
   imports: [RedisModule, forwardRef(() => AuthModule)],
 
   controllers: [ZoomController],
-  providers: [ZoomService, RedisService]
+  providers: [ZoomService, RedisService],
+  
 })
 export class ZoomModule {}
