@@ -15,6 +15,8 @@ import {RedisService} from "./redis/redis.service";
 // import { PbxController } from './pbx/pbx.controller';
 import { PbxModule } from './pbx/pbx.module';
 import { HuntflowModule } from './huntflow/huntflow.module';
+import { OutsidedbModule } from './outsidedb/outsidedb.module';
+import { OutsideDb } from './outsidedb/outsidedb.model'
 
 
 @Module({
@@ -38,6 +40,18 @@ import { HuntflowModule } from './huntflow/huntflow.module';
           models: [User],
           autoLoadModels: true,
       }),
+      SequelizeModule.forRoot({
+        name: 'secondDatabase',
+        dialect: 'postgres',
+        host: process.env.CHAT_INFO_HOST,
+        port: 5432,
+        username: process.env.CHAT_INFO_USERNAME,
+        password: process.env.CHAT_INFO_PASSWORD,
+        database: process.env.CHAT_INFO_USERNAME,
+        models: [OutsideDb],
+        autoLoadModels: true,
+        synchronize: true,
+      }),
       UserModule,
       AuthModule,
       AccountsModule,
@@ -45,6 +59,7 @@ import { HuntflowModule } from './huntflow/huntflow.module';
       RedisModule,
       PbxModule,
       HuntflowModule,
+      OutsidedbModule,
 
 
   ],
