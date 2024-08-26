@@ -13,12 +13,12 @@ export const dirPath = {
     'Cw4sjzTURV-3iPA9Z3x9Cg': ['', '11q6Ai4jrdsKLLLBLqH-hhqdGRhHdT6TH'],
     //Усманов
     'oVjWi08OTACbC2gOgDzx-A': ['', ''],
-    //D2 Yurieva
-    'PmwTgxgaTXymHNMqn4zouw': ['', '1AEAvElsPHygKavDpYtn4skti1FdyjsYO'],
+    //D2 Demchenko
+    'PmwTgxgaTXymHNMqn4zouw': ['', '1lOIvVNQCw0zgpj6_iid5nrOJFYYhxOHq'],
     //Департамент 6Б
     'PQPRgZuiTOK78xRTsHNLUA': ['', '1BVtZnyU4OSoACypK0ZSalisEQrXYh62x'],
     //D2 Visotsky Inc
-    'q7S73rwlRmCp8F7Gz5dAIA': ['', '1AEAvElsPHygKavDpYtn4skti1FdyjsYO'],
+    'q7S73rwlRmCp8F7Gz5dAIA': ['', '1lOIvVNQCw0zgpj6_iid5nrOJFYYhxOHq'],
     //D4
     'S1RKnFE3TKGw1ydhvEbU-A': ['', '1uU01rzWIW25_WirkvPUwen8uLo2YjOx6'],
     //Rozum
